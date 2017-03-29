@@ -1,0 +1,179 @@
+============================== 25 FEBRUARI ============================== 
+M. FEBRA S
+
+========> MEMBUAT TABEL PESERTA
+
+CREATE TABLE `blk_demak`.`peserta` ( `id` INT NOT NULL AUTO_INCREMENT , `no_ktp` VARCHAR(16) NOT NULL , `nama` VARCHAR(128) NOT NULL , `jenis_kelamin` VARCHAR(9) NULL , `tempat_lahir` VARCHAR(128) NULL , `tanggal_lahir` DATE NULL , `agama` VARCHAR(16) NULL , `alamat` VARCHAR(256) NULL , `telepon` VARCHAR(14) NOT NULL , `email` VARCHAR(64) NOT NULL , `password` VARCHAR(16) NOT NULL , `sumber_info` VARCHAR(16) NULL , `tanggal_daftar` DATE NOT NULL , PRIMARY KEY (`id`), UNIQUE (`no_ktp`)) ENGINE = InnoDB;
+
+******* MENGUBAH PANJANG PASSWORD DI TABEL PESERTA ==*/
+
+ALTER TABLE `peserta` CHANGE `password` `password` VARCHAR(32) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+
+MOHAMMAD FAJAR AINUL BASHRI
+
+=======> MEMBUAT TABEL KEJURUAN
+
+CREATE TABLE `blk_demak`.`kejuruan` ( `id_kejuruan` INT NOT NULL AUTO_INCREMENT , `nama_kejuruan` VARCHAR(64) NOT NULL , `date_created` TIMESTAMP NOT NULL , PRIMARY KEY (`id_kejuruan`)) ENGINE = InnoDB;
+
+******* EDIT TABEL KEJURUAN
+ALTER TABLE `kejuruan` CHANGE `date_created` `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+=======> MEMBUAT TABEL KARYAWAN
+
+CREATE TABLE `blk_demak`.`karyawan` ( `id_karyawan` INT NOT NULL AUTO_INCREMENT , `nama_karyawan` VARCHAR(128) NOT NULL , `email` VARCHAR(64) NOT NULL , `jabatan` VARCHAR(16) NOT NULL , PRIMARY KEY (`id_karyawan`)) ENGINE = InnoDB;
+
+******* TAMBAH KOLOM TABEL KARYAWAN
+ALTER TABLE `karyawan` ADD `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `jabatan`;
+
+=======> MEMBUAT TABEL JADWAL
+CREATE TABLE `blk_demak`.`jadwal` ( `id_jadwal` INT NOT NULL AUTO_INCREMENT , `angkatan` VARCHAR(8) NOT NULL , `id_kejuruan` INT NOT NULL , `sumber_dana` VARCHAR(8) NOT NULL , `kapasitas` INT NOT NULL , `seleksi_awal` DATE NOT NULL , `seleksi_akhir` DATE NOT NULL , `pelatihan_awal` DATE NOT NULL , `pelatihan_akhir` DATE NOT NULL , `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id_jadwal`)) ENGINE = InnoDB;
+
+
+============================= 26 FEBRUARI 2017 ============================
+
+M. FEBRA S
+
+******* MENAMBAH KOLOM status DAN token DI TABEL PESERTA
+ALTER TABLE `peserta` ADD `status` VARCHAR(16) NOT NULL AFTER `tanggal_daftar`, ADD `token` VARCHAR(32) NULL AFTER `status`; 
+
+******* MENAMBAH KOLOM pendidikan_terakhir DI TABEL PESERTA
+
+ALTER TABLE `peserta` ADD `pendidikan_terakhir` VARCHAR(16) NOT NULL AFTER `email`;
+
+******* MENGUBAH KOLOM email MENJADI UNIK DI TABEEL PESERTA
+
+ALTER TABLE `peserta` ADD UNIQUE(`email`);
+
+
+========> MEMBUAT TABEL KONTAK
+
+CREATE TABLE `blk_demak`.`kontak` ( `id` INT NOT NULL AUTO_INCREMENT , `nama` VARCHAR(128) NOT NULL , `email` VARCHAR(64) NOT NULL , `subyek` VARCHAR(128) NOT NULL , `pesan` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+
+MOHAMMAD FAJAR AINUL BASHRI
+
+========> MEMBUAT TABEL JADWAL ASSIGN
+CREATE TABLE `blk_demak`.`jadwal_assign` ( `id_jadwal` INT NOT NULL , `id_peserta` INT NOT NULL , `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ) ENGINE = InnoDB;
+
+========> MEMBUAT TABEL KEJURUAN ASSIGN
+CREATE TABLE `blk_demak`.`kejuruan_assign` ( `id_kejuruan` INT NOT NULL , `id_peserta` INT NOT NULL , `status` VARCHAR(8) NOT NULL , `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ) ENGINE = InnoDB;
+
+******* TAMBAH KOLOM TABEL JADWAL
+ALTER TABLE `jadwal` ADD `status` VARCHAR(32) NOT NULL AFTER `kapasitas`;
+
+******* UBAH KOLOM STATUS DI TABEL JADWAL
+ALTER TABLE `jadwal` CHANGE `status` `status_pelaksanaan` VARCHAR(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'belum';
+
+******* UBAH KOLOM STATUS DI TABEL KEJURUAN ASSIGN
+
+ALTER TABLE `kejuruan_assign` CHANGE `status` `status` VARCHAR(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '1' COMMENT '1 = belum dipanggil, 2 = sudah dipanggil, 3 = belum lulus tes wawancara, 4 = sudah lulus tes wawancara, 5 = belum lulus pelatihan, 6 = sudah lulus pelatihan';
+
+******* TAMBAH KOLOM TABEL KEJURUAN ASSIGN
+ALTER TABLE `kejuruan_assign` ADD `selected` INT NOT NULL AFTER `status`;
+
+******* TAMBAH KOLOM SELECTED TABEL KEJURUAN ASSIGN
+ALTER TABLE `kejuruan_assign` CHANGE `selected` `selected` INT(11) NOT NULL DEFAULT '0';
+
+******* UBAH KOLOM STATUS DI TABEL KEJURUAN ASSIGN
+ALTER TABLE `kejuruan_assign` CHANGE `status` `status` VARCHAR(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT '1 = belum dipanggil, 2 = sudah dipanggil, 3 = belum lulus tes wawancara, 4 = sudah lulus tes wawancara, 5 = belum lulus pelatihan, 6 = sudah lulus pelatihan';
+
+================================ 27 FEBRUARI 2017 ===================================
+
+M. FEBRA S
+
+========> MEMBUAT TABEL REGISTRASI PELATIHAN
+CREATE TABLE `blk_demak`.`registrasi_pelatihan` ( `id_registrasi` INT NOT NULL AUTO_INCREMENT , `no_pendaftaran` VARCHAR(10) NOT NULL , `id_peserta` INT NOT NULL , `kode_kejuruan` INT NOT NULL , `gelombang` INT NOT NULL , `tahun` YEAR NOT NULL , `status` VARCHAR(30) NOT NULL , `tanggal_registrasi` TIMESTAMP NOT NULL , PRIMARY KEY (`id_registrasi`, `no_pendaftaran`), UNIQUE (`id_registrasi`)) ENGINE = InnoDB;
+
+MOHAMMAD FAJAR AINUL BASHRI
+
+******* UBAH KOLOM DI TABEL REGISTRASI PELATIHAN
+
+ALTER TABLE `registrasi_pelatihan` CHANGE `kode_kejuruan` `id_kejuruan` INT(11) NOT NULL, CHANGE `status` `status` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT '1 = belum dipanggil, 2 = sudah dipanggil, 3 = belum lulus tes wawancara, 4 = sudah lulus tes wawancara, 5 = belum lulus pelatihan, 6 = sudah lulus pelatihan';
+
+M. FEBRA S
+
+******* UBAH NAMA KOLOM GELOMBANG MENJADI ID JADWAL DI TABEL REGISTRASI PELATIHAN
+ALTER TABLE `registrasi_pelatihan` CHANGE `gelombang` `id_jadwal` INT(11) NOT NULL DEFAULT '0';
+
+******* HAPUS KOLOM TAHUN DI TABEL REGISTRASI PELATIHAN
+ALTER TABLE `registrasi_pelatihan` DROP `tahun`;
+
+******* TAMBAH KOLOM FLAG DI TABEL PESERTA
+ALTER TABLE `peserta` ADD `flag` INT(1) NOT NULL COMMENT 'tanda apakah data sudah lengkap/ belum. 0 = belum, 1 = sudah' AFTER `token`; 
+
+MOHAMMAD FAJAR AINUL BASHRI
+
+******* UBAH TANGGAL REGISTRASI DI TABEL REGISTRASI 
+
+ALTER TABLE `registrasi_pelatihan` CHANGE `tanggal_registrasi` `tanggal_registrasi` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+M. FEBRA S
+
+******* UBAH KOLOM STATUS DI TABEL REGISTRASI PELATIHAN
+ALTER TABLE `registrasi_pelatihan` CHANGE `status` `status` INT(1) NOT NULL DEFAULT '1' COMMENT '1 = belum dipanggil, 2 = sudah dipanggil, 3 = belum lulus tes wawancara, 4 = sudah lulus tes wawancara, 5 = belum lulus pelatihan, 6 = sudah lulus pelatihan'; 
+
+******* UBAH NAMA DAN PANJANG KOLOM NO PENDAFTARAN DI TABEL REGISTRASI PELATIHAN
+ALTER TABLE `registrasi_pelatihan` CHANGE `no_pendaftaran` `no_registrasi` VARCHAR(7) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL; 
+
+========> MEMBUAT TABEL DATA KERJA
+CREATE TABLE `blk_demak`.`data_kerja` ( `id_data_kerja` INT NOT NULL AUTO_INCREMENT , `id_peserta` INT NOT NULL , `status_kerja` VARCHAR(5) NOT NULL , `jenis_pekerjaan` VARCHAR(9) NULL , `nama_perusahaan` VARCHAR(128) NULL , `alamat_perusahaan` VARCHAR(128) NULL , `telepon_perusahaan` VARCHAR(16) NULL , PRIMARY KEY (`id_data_kerja`)) ENGINE = InnoDB;
+
+******* TAMBAH KOLOM DATE CREATED DI TABEL DATA KERJA
+ALTER TABLE `data_kerja` ADD `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `telepon_perusahaan`; 
+
+
+================================ 28 FEBRUARI 2017 ===================================
+MOHAMMAD FAJAR AINUL BASHRI
+
+========> MEMBUAT TABEL ADMIN
+
+CREATE TABLE `blk_demak`.`admin` ( `id_admin` INT NOT NULL AUTO_INCREMENT , `nama_admin` VARCHAR(128) NOT NULL , `email` VARCHAR(64) NOT NULL , `password` VARCHAR(64) NOT NULL , `date_created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id_admin`)) ENGINE = InnoDB;
+
+
+******* TAMBAH KOLOM PASSWORD DI TABEL KARYAWAN
+
+ALTER TABLE `karyawan` ADD `password` VARCHAR(64) NOT NULL AFTER `jabatan`;
+
+******* TAMBAH KOLOM KODE KEJURUAN DI TABEL KEJURUAN
+ALTER TABLE `kejuruan` ADD `kode_kejuruan` VARCHAR(8) NOT NULL AFTER `nama_kejuruan`;
+
+================================ 2 MARET 2017 ===================================
+M. FEBRA S
+
+******* TAMBAH KOLOM TOKEN DI TABEL ADMIN
+ALTER TABLE `admin` ADD `token` VARCHAR(32) NOT NULL AFTER `date_created`;
+
+******* TAMBAH KOLOM TOKEN DI TABEL KARYAWAN
+ALTER TABLE `karyawan` ADD `token` VARCHAR(32) NOT NULL AFTER `date_created`;
+
+
+
+================================ 3 MARET 2017 ===================================
+MOHAMMAD FAJAR AINUL BASHRI
+
+******* TAMBAH KOLOM TABEL KONTAK
+ALTER TABLE `kontak` ADD `status` VARCHAR(8) NOT NULL COMMENT 'status apakah pesan sudah dibaca atau belum' AFTER `pesan`, ADD `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `status`;
+
+
+
+TABEL KONTAK SUDAH DIUBAH MENJADI TABEL PESAN, TAPI QUERY TIDAK ADA
+UBAH SECARA MANUAL!!!!
+
+================================ 4 MARET 2017 ===================================
+MOHAMMAD FAJAR AINUL BASHRI
+
+******* EDIT KOLOM STATUS DI TABEL PESAN
+
+ALTER TABLE `pesan` CHANGE `status` `status` VARCHAR(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'belum' COMMENT 'status apakah pesan sudah dibaca atau belum';
+
+================================ 9 MARET 2017 ===================================
+MOHAMMAD FAJAR AINUL BASHRI
+
+******* TAMBAH KOLOM STATUS HAPUS DI TABEL KEJURUAN
+ALTER TABLE `kejuruan` ADD `status_hapus` INT NOT NULL DEFAULT '0' AFTER `kode_kejuruan`;
+
+******* TAMBAH KOLOM STATUS HAPUS DI TABEL PESERTA
+ALTER TABLE `peserta` ADD `status_hapus` INT NOT NULL DEFAULT '0' COMMENT '0 = belum dihapus, 1 = sudah dihapus' AFTER `status`;
+
+******* TAMBAH KOLOM STATUS HAPUS DI TABEL JADWAL
+ALTER TABLE `jadwal` ADD `status_hapus` INT NOT NULL DEFAULT '0' COMMENT '0 = belum dihapus, 1 = sudah dihapus' AFTER `pelatihan_akhir`;
