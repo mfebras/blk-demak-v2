@@ -177,3 +177,16 @@ ALTER TABLE `peserta` ADD `status_hapus` INT NOT NULL DEFAULT '0' COMMENT '0 = b
 
 ******* TAMBAH KOLOM STATUS HAPUS DI TABEL JADWAL
 ALTER TABLE `jadwal` ADD `status_hapus` INT NOT NULL DEFAULT '0' COMMENT '0 = belum dihapus, 1 = sudah dihapus' AFTER `pelatihan_akhir`;
+
+
+================================ 30 MARET 2017 ===================================
+M. FEBRA S
+
+******* HAPUS KOLOM DI TABEL PESERTA
+ALTER TABLE `peserta` DROP `email`, DROP `password`, DROP `status`, DROP `token`, DROP `flag`, DROP `tanggal_daftar`;
+
+******* TAMBAH KOLOM KECAMATAN DI TABEL PESERTA
+ALTER TABLE `peserta` ADD `kecamatan` VARCHAR(12) NOT NULL AFTER `alamat`; 
+
+******* HAPUS KOLOM DI TABEL REGISTRASI PELATIHAN
+ALTER TABLE `registrasi_pelatihan` DROP `status`;

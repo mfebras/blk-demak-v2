@@ -19,6 +19,8 @@
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"> 
 
+    <link href="assets/css/jquery-ui.css" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/blk-demak.css" rel="stylesheet">
     <!-- <link href="assets/css/style-responsive.css" rel="stylesheet"> -->
@@ -31,6 +33,8 @@
   </head>
 
   <body>
+  
+    <?php session_start(); ?>
 
     <header>
       <div class="header-top">
@@ -50,18 +54,6 @@
                   Pemerintah Kabupaten Demak
                 </h4>
               </div>
-<?php
-  // check is user logged in?
-  session_start();
-  if (!isset($_SESSION['login-peserta'])) {
-?>
-              <div class="auth valign">
-                <button class="login-btn" data-tab="login" data-toggle="modal" data-target="#modal-auth">Login</button>
-                <button class="signup-btn" data-tab="register" data-toggle="modal" data-target="#modal-auth">Daftar</button>
-              </div>
-<?php
-  }   /* end of check login*/
-?>
         </div>
       </div>
 
@@ -71,28 +63,12 @@
             <ul class="nav navbar-nav">
               <li><a href="<?php echo ROOT; ?>index.php">Beranda</a></li>
               <li><a href="<?php echo ROOT; ?>jadwal.php">Lihat Jadwal dan Jenis Pelatihan</a></li>
-              <li><a href="<?php echo ROOT; ?>hasil_seleksi.php">Pengumuman Hasil Seleksi</a></li>
+              <li><a href="<?php echo ROOT; ?>reg_pelatihan.php">Daftar Pelatihan</a></li>
               <li><a href="<?php echo ROOT; ?>tentang.php">Tentang</a></li>
               <li><a href="<?php echo ROOT; ?>kontak.php">Kontak</a></li>
             </ul>
           </nav>
-<?php
-  // check is user logged in?
-  if (isset($_SESSION['login-peserta'])) {
-?>
-          <div class="dropdown pull-right">
-            <button id="profile-menu" class="login-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Profil
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="profile-menu">
-              <li><a href="<?php echo ROOT; ?>peserta/index.php">Profil Saya</a></li>
-              <li><a href="<?php echo ROOT; ?>proses/peserta/logout.php">Logout</a></li>
-            </ul>
-          </div>
-<?php
-  }   /* end of check login*/
-?>
+
         </div>
       </div>
     </header>
