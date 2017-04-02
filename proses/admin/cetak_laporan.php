@@ -102,8 +102,6 @@
 		$total[$angkatanItem]['l'] = 0;
 		$total[$angkatanItem]['p'] = 0;
 		$total[$angkatanItem]['j'] = 0;
-		$total[$angkatanItem]['i'] = 0;
-		$total[$angkatanItem]['w'] = 0;
 
 		foreach ($arrayKejuruan as $key => $kejuruanItem) {
 			
@@ -112,39 +110,21 @@
 			$data[$angkatanItem][$kejuruanItem]['l'] = 0;
 			$data[$angkatanItem][$kejuruanItem]['p'] = 0;
 			$data[$angkatanItem][$kejuruanItem]['j'] = 0;
-			$data[$angkatanItem][$kejuruanItem]['i'] = 0;
-			$data[$angkatanItem][$kejuruanItem]['w'] = 0;
 
 			$query = mysqli_query($connect, "SELECT sum(case when pe.jenis_kelamin = 'Laki-laki' then 1 else 0 end) males,
 														sum(case when pe.jenis_kelamin = 'Perempuan' then 1 else 0 end) females,
-														count(*) total,
-														sum(case when dk.jenis_pekerjaan = 'Karyawan' then 1 else 0 end) industri,
-														sum(case when dk.jenis_pekerjaan = 'Wirausaha' then 1 else 0 end) wir
+														count(*) total
+														
 
 														FROM registrasi_pelatihan re LEFT JOIN peserta pe ON re.id_peserta = pe.id
                                                     							 LEFT JOIN jadwal ja ON  re.id_jadwal = ja.id_jadwal 
-                                                                                 LEFT JOIN kejuruan ke ON re.id_kejuruan = ke.id_kejuruan 
-                                                                                 LEFT JOIN data_kerja dk ON pe.id=dk.id_peserta
+                                                                                 LEFT JOIN kejuruan ke ON re.id_kejuruan = ke.id_kejuruan                                                                                 
 
 														WHERE ja.angkatan = '".$angkatanItem."' AND YEAR(ja.pelatihan_awal) = '".$tahun."' 
 														AND re.status = 6 AND re.id_kejuruan = $kejuruanItem  														
 
 														");
 
-			/*$query = mysqli_query($connect, "SELECT sum(case when pe.jenis_kelamin = 'Laki-laki' then 1 else 0 end) males,
-														sum(case when pe.jenis_kelamin = 'Perempuan' then 1 else 0 end) females,
-														count(*) total,
-														sum(case when dk.jenis_pekerjaan = 'Karyawan' then 1 else 0 end) industri,
-														sum(case when dk.jenis_pekerjaan = 'Wirausaha' then 1 else 0 end) wir
-
-														FROM registrasi_pelatihan re, peserta pe, jadwal ja, kejuruan ke, data_kerja dk
-
-														WHERE re.id_peserta = pe.id AND re.id_jadwal = ja.id_jadwal AND re.id_kejuruan = ke.id_kejuruan 
-														AND pe.id=dk.id_peserta AND ja.angkatan = '".$angkatanItem."' AND YEAR(ja.pelatihan_awal) = '".$tahun."' 
-														AND re.status = 6 AND re.id_kejuruan = $kejuruanItem  														
-
-														");*/
-			
 			if(!$query){
 
 				die("QUERY GET LAPORAN FAILED ". mysqli_error($connect));
@@ -155,11 +135,6 @@
 			$data[$angkatanItem][$kejuruanItem]['l'] = $row->males;
 			$data[$angkatanItem][$kejuruanItem]['p'] = $row->females;
 			$data[$angkatanItem][$kejuruanItem]['j'] = $row->total;
-			$data[$angkatanItem][$kejuruanItem]['i'] = $row->industri;
-			$data[$angkatanItem][$kejuruanItem]['w'] = $row->wir;
-
-
-
 
 		}
 
@@ -205,14 +180,18 @@
 	$pdf->Cell(280,5,'Email : blkdemak@gmail.com',0, 0, 'C');
 	$pdf->ln();
 
-	$pdf->setXY(10, 60);
-
-	$pdf->SetFont('Arial','B',10);
-
-	$pdf->Cell(10,14,'NO',1, 0, 'C');
-	$pdf->Cell(30,14,'KEJURUAN',1, 0, 'C');
+	
 
 	if($angkatan=='all'){
+
+		$pdf->setXY(10, 60);
+
+		$pdf->SetFont('Arial','B',10);
+
+		$pdf->Cell(10,14,'NO',1, 0, 'C');
+		$pdf->Cell(30,14,'KEJURUAN',1, 0, 'C');
+
+
 		$x = 50; $y1= 60;$y2 = 67;
 		foreach ($arrayAngkatan as $key => $angkatanItem) {
 			$pdf->setXY($x, $y1);
@@ -220,11 +199,9 @@
 
 
 			$pdf->setXY($x, $y2);
-			$pdf->Cell(9,7,'LK',1, 0, 'C');
-			$pdf->Cell(9,7,'PR',1, 0, 'C');
-			$pdf->Cell(9,7,'JUM',1, 0, 'C');
-			$pdf->Cell(9,7,'IND',1, 0, 'C');
-			$pdf->Cell(9,7,'WIR',1, 0, 'C');
+			$pdf->Cell(15,7,'LK',1, 0, 'C');
+			$pdf->Cell(15,7,'PR',1, 0, 'C');
+			$pdf->Cell(15,7,'JUM',1, 0, 'C');
 
 			$x = $x + 45;
 
@@ -251,26 +228,16 @@
 				$laki 		= isset($data[$angkatanItem][$id_kejuruan]['l']) ? $data[$angkatanItem][$id_kejuruan]['l'] : 0;
 				$perempuan 	= isset($data[$angkatanItem][$id_kejuruan]['p']) ? $data[$angkatanItem][$id_kejuruan]['p'] : 0;
 				$jumlah		= isset($data[$angkatanItem][$id_kejuruan]['j']) ? $data[$angkatanItem][$id_kejuruan]['j'] : 0;
-				$industri 	= isset($data[$angkatanItem][$id_kejuruan]['i']) ? $data[$angkatanItem][$id_kejuruan]['i'] : 0;
-				$wirausaha 	= isset($data[$angkatanItem][$id_kejuruan]['w']) ? $data[$angkatanItem][$id_kejuruan]['w'] : 0;
 				
 				$total[$angkatanItem]['l'] +=  $laki;
 				$total[$angkatanItem]['p'] +=  $perempuan;
 				$total[$angkatanItem]['j'] +=  $jumlah;
-				$total[$angkatanItem]['i'] +=  $industri;
-				$total[$angkatanItem]['w'] +=  $wirausaha;
+				
+				$tempWidth = array(15,15,15);
 
-				$tempWidth = array(9,9,9,9,9);
+				$tempContent = array($laki, $perempuan, $jumlah);
 
-				$tempContent = array($laki, $perempuan, $jumlah, $industri, $wirausaha);
-
-				$tempAlign = array('C', 'C', 'C', 'C', 'C');
-
-				/*$pdf->Cell(9,7,$laki,1, 0, 'C');
-				$pdf->Cell(9,7,$perempuan,1, 0, 'C');
-				$pdf->Cell(9,7,$jumlah,1, 0, 'C');
-				$pdf->Cell(9,7,$industri,1, 0, 'C');
-				$pdf->Cell(9,7,$wirausaha,1, 0, 'C');*/
+				$tempAlign = array('C', 'C', 'C');
 
 				$width = array_merge($width, $tempWidth);
 
@@ -296,31 +263,34 @@
 
 		foreach ($arrayAngkatan as $key => $angkatanItem) {
 
-			$pdf->Cell(9,7, $total[$angkatanItem]['l'] ,1, 0, 'C');
-			$pdf->Cell(9,7, $total[$angkatanItem]['p'] ,1, 0, 'C');
-			$pdf->Cell(9,7, $total[$angkatanItem]['j'] ,1, 0, 'C');
-			$pdf->Cell(9,7, $total[$angkatanItem]['i'] ,1, 0, 'C');
-			$pdf->Cell(9,7, $total[$angkatanItem]['w'] ,1, 0, 'C');
-			
+			$pdf->Cell(15,7, $total[$angkatanItem]['l'] ,1, 0, 'C');
+			$pdf->Cell(15,7, $total[$angkatanItem]['p'] ,1, 0, 'C');
+			$pdf->Cell(15,7, $total[$angkatanItem]['j'] ,1, 0, 'C');
+
 		}
 
 
 		//jika hanya ada satu ANGKATAN
 	}else{
 
-		$pdf->Cell(230,7,'Angkatan '.$angkatanItem,1, 0, 'C');
+		$pdf->setXY(30, 60);
 
-		$pdf->setXY(50, 67);
-		$pdf->Cell(46,7,'LK',1, 0, 'C');
-		$pdf->Cell(46,7,'PR',1, 0, 'C');
-		$pdf->Cell(46,7,'JUM',1, 0, 'C');
-		$pdf->Cell(46,7,'IND',1, 0, 'C');
-		$pdf->Cell(46,7,'WIR',1, 0, 'C');
+		$pdf->SetFont('Arial','B',10);
+
+		$pdf->Cell(10,14,'NO',1, 0, 'C');
+		$pdf->Cell(100,14,'KEJURUAN',1, 0, 'C');
+
+		$pdf->Cell(120,7,'Angkatan '.$angkatanItem,1, 0, 'C');
+
+		$pdf->setXY(140, 67);
+		$pdf->Cell(40,7,'LK',1, 0, 'C');
+		$pdf->Cell(40,7,'PR',1, 0, 'C');
+		$pdf->Cell(40,7,'JUM',1, 0, 'C');
 
 
 		$pdf->SetFont('Arial','',10);
 
-		$pdf->setXY(10, 74);
+		$pdf->setXY(30, 74);
 
 		$no = 1;
 
@@ -328,7 +298,9 @@
 			/*$pdf->Cell(10,7,$no,1, 0, 'C');
 			$pdf->Cell(30,7,$nama_kejuruan,1, 0, 'C');
 */
-			$width = array(10, 30);
+			$width = array(10, 100);
+
+			$posX = array(30, 40);
 
 			$content = array($no, $nama_kejuruan);
 
@@ -338,55 +310,48 @@
 				$laki 		= isset($data[$angkatanItem][$id_kejuruan]['l']) ? $data[$angkatanItem][$id_kejuruan]['l'] : 0;
 				$perempuan 	= isset($data[$angkatanItem][$id_kejuruan]['p']) ? $data[$angkatanItem][$id_kejuruan]['p'] : 0;
 				$jumlah		= isset($data[$angkatanItem][$id_kejuruan]['j']) ? $data[$angkatanItem][$id_kejuruan]['j'] : 0;
-				$industri 	= isset($data[$angkatanItem][$id_kejuruan]['i']) ? $data[$angkatanItem][$id_kejuruan]['i'] : 0;
-				$wirausaha 	= isset($data[$angkatanItem][$id_kejuruan]['w']) ? $data[$angkatanItem][$id_kejuruan]['w'] : 0;
 				
 				$total[$angkatanItem]['l'] +=  $laki;
 				$total[$angkatanItem]['p'] +=  $perempuan;
 				$total[$angkatanItem]['j'] +=  $jumlah;
-				$total[$angkatanItem]['i'] +=  $industri;
-				$total[$angkatanItem]['w'] +=  $wirausaha;
+				
+				
+				$tempWidth = array(40,40,40);
 
-				/*$pdf->Cell(46,7,$laki,1, 0, 'C');
-				$pdf->Cell(46,7,$perempuan,1, 0, 'C');
-				$pdf->Cell(46,7,$jumlah,1, 0, 'C');
-				$pdf->Cell(46,7,$industri,1, 0, 'C');
-				$pdf->Cell(46,7,$wirausaha,1, 0, 'C');*/
+				$tempContent = array($laki, $perempuan, $jumlah);
 
-				$tempWidth = array(46,46,46,46,46);
+				$tempAlign = array('C', 'C', 'C');
 
-				$tempContent = array($laki, $perempuan, $jumlah, $industri, $wirausaha);
-
-				$tempAlign = array('C', 'C', 'C', 'C', 'C');
+				$tempPosX = array(140,180,220);
 
 				$width = array_merge($width, $tempWidth);
 
 				$content = array_merge($content, $tempContent);
 
 				$align = array_merge($align, $tempAlign);
+
+				$posX = array_merge($posX, $tempPosX);
+
 			}
 
 			$pdf->SetAligns($align);
 			$pdf->SetWidths($width);
-
+			$pdf->SetPosX($posX);
 			$pdf->Row($content);
 
 			$no++;
 
 		}
-
+		$pdf->setXY(30, $pdf->getY());
 		$pdf->SetFont('Arial','B',10);
 
-		$pdf->Cell(40,7,'JUMLAH',1, 0, 'C');
+		$pdf->Cell(110,7,'JUMLAH',1, 0, 'C');
 
 		foreach ($arrayAngkatan as $key => $angkatanItem) {
 
-			$pdf->Cell(46,7, $total[$angkatanItem]['l'] ,1, 0, 'C');
-			$pdf->Cell(46,7, $total[$angkatanItem]['p'] ,1, 0, 'C');
-			$pdf->Cell(46,7, $total[$angkatanItem]['j'] ,1, 0, 'C');
-			$pdf->Cell(46,7, $total[$angkatanItem]['i'] ,1, 0, 'C');
-			$pdf->Cell(46,7, $total[$angkatanItem]['w'] ,1, 0, 'C');
-			
+			$pdf->Cell(40,7, $total[$angkatanItem]['l'] ,1, 0, 'C');
+			$pdf->Cell(40,7, $total[$angkatanItem]['p'] ,1, 0, 'C');
+			$pdf->Cell(40,7, $total[$angkatanItem]['j'] ,1, 0, 'C');			
 		}
 
 

@@ -18,6 +18,12 @@ function SetAligns($a)
 	$this->aligns=$a;
 }
 
+function SetPosX($x)
+{
+	//Set the array of x positions
+	$this->posX=$x;
+}
+
 //$border bool, apakah mencetak border atau tidak 
 function Row($data, $border=true)
 {
@@ -34,13 +40,14 @@ function Row($data, $border=true)
 		$w=$this->widths[$i];
 		$a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
 		//Save the current position
-		$x=$this->GetX();
+		$x=isset($this->posX[$i]) ? $this->posX[$i] : $this->GetX();
 		$y=$this->GetY();
 		if($border){
 			//Draw the border
 			$this->Rect($x,$y,$w,$h);
 		}
 		
+		$this->SetXY($x,$y);
 		//Print the text
 		$this->MultiCell($w,5,$data[$i],0,$a);
 		//Put the position to the right of the cell
