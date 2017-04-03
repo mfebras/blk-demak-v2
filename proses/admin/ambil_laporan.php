@@ -101,8 +101,6 @@
 			$total[$angkatanItem]['l'] = 0;
 			$total[$angkatanItem]['p'] = 0;
 			$total[$angkatanItem]['j'] = 0;
-			$total[$angkatanItem]['i'] = 0;
-			$total[$angkatanItem]['w'] = 0;
 
 			foreach ($arrayKejuruan as $key => $kejuruanItem) {
 				
@@ -111,38 +109,19 @@
 				$data[$angkatanItem][$kejuruanItem]['l'] = 0;
 				$data[$angkatanItem][$kejuruanItem]['p'] = 0;
 				$data[$angkatanItem][$kejuruanItem]['j'] = 0;
-				$data[$angkatanItem][$kejuruanItem]['i'] = 0;
-				$data[$angkatanItem][$kejuruanItem]['w'] = 0;
 
 				$query = mysqli_query($connect, "SELECT sum(case when pe.jenis_kelamin = 'Laki-laki' then 1 else 0 end) males,
   														sum(case when pe.jenis_kelamin = 'Perempuan' then 1 else 0 end) females,
-  														count(*) total,
-  														sum(case when dk.jenis_pekerjaan = 'Karyawan' then 1 else 0 end) industri,
-  														sum(case when dk.jenis_pekerjaan = 'Wirausaha' then 1 else 0 end) wir
+  														count(*) total
 
   														FROM registrasi_pelatihan re LEFT JOIN peserta pe ON re.id_peserta = pe.id
                                                         							 LEFT JOIN jadwal ja ON  re.id_jadwal = ja.id_jadwal 
-                                                                                     LEFT JOIN kejuruan ke ON re.id_kejuruan = ke.id_kejuruan 
-                                                                                     LEFT JOIN data_kerja dk ON pe.id=dk.id_peserta
+                                                                                     LEFT JOIN kejuruan ke ON re.id_kejuruan = ke.id_kejuruan                                                                                  
 
   														WHERE ja.angkatan = '".$angkatanItem."' AND YEAR(ja.pelatihan_awal) = '".$tahun."' 
   														AND re.status = 6 AND re.id_kejuruan = $kejuruanItem  														
 
   														");
-
-				/*$query = mysqli_query($connect, "SELECT sum(case when pe.jenis_kelamin = 'Laki-laki' then 1 else 0 end) males,
-  														sum(case when pe.jenis_kelamin = 'Perempuan' then 1 else 0 end) females,
-  														count(*) total,
-  														sum(case when dk.jenis_pekerjaan = 'Karyawan' then 1 else 0 end) industri,
-  														sum(case when dk.jenis_pekerjaan = 'Wirausaha' then 1 else 0 end) wir
-
-  														FROM registrasi_pelatihan re, peserta pe, jadwal ja, kejuruan ke, data_kerja dk
-
-  														WHERE re.id_peserta = pe.id AND re.id_jadwal = ja.id_jadwal AND re.id_kejuruan = ke.id_kejuruan 
-  														AND pe.id=dk.id_peserta AND ja.angkatan = '".$angkatanItem."' AND YEAR(ja.pelatihan_awal) = '".$tahun."' 
-  														AND re.status = 6 AND re.id_kejuruan = $kejuruanItem  														
-
-  														");*/
 				
 				if(!$query){
 
@@ -154,8 +133,6 @@
 				$data[$angkatanItem][$kejuruanItem]['l'] = $row->males;
 				$data[$angkatanItem][$kejuruanItem]['p'] = $row->females;
 				$data[$angkatanItem][$kejuruanItem]['j'] = $row->total;
-				$data[$angkatanItem][$kejuruanItem]['i'] = $row->industri;
-				$data[$angkatanItem][$kejuruanItem]['w'] = $row->wir;
 
 
 
@@ -178,6 +155,9 @@
 				<p>Jl. Kantonsari No. 19 Demak. Telp (0291) 681718</p>
 				<p>Email : blkdemak@gmail.com</p>
 			</div>
+			<div class="col-sm-12" style="margin-top:20px; font-size:20px">
+				<span><h4>Laporan Tahun <?php echo $tahun ?> <?php if($angkatan!='all') {echo 'Angkatan '.$angkatan;}?></h4></span>
+			</div>
 		</div>
 
 		<table border="1" class="table table-striped" align="center" valign="center" style="vertical-align:middle">
@@ -191,7 +171,7 @@
 					<?php
 
 						foreach ($arrayAngkatan as $key => $angkatanItem) {
-							echo "<th colspan=\"5\">Angkatan ".$angkatanItem."</th>";
+							echo "<th colspan=\"3\">Angkatan ".$angkatanItem."</th>";
 						}
 
 					?>
@@ -204,8 +184,6 @@
 							echo "<th>LK</th>";
 							echo "<th>PR</th>";
 							echo "<th>JUM</th>";
-							echo "<th>IND</th>";
-							echo "<th>WIR</th>";
 						}
 
 					?>
@@ -228,14 +206,11 @@
 							echo "<td>";echo isset($data[$angkatanItem][$id_kejuruan]['l']) ? $data[$angkatanItem][$id_kejuruan]['l'] : 0;echo "</td>";
 							echo "<td>";echo isset($data[$angkatanItem][$id_kejuruan]['p']) ? $data[$angkatanItem][$id_kejuruan]['p'] : 0;echo "</td>";
 							echo "<td>";echo isset($data[$angkatanItem][$id_kejuruan]['j']) ? $data[$angkatanItem][$id_kejuruan]['j'] : 0;echo "</td>";
-							echo "<td>";echo isset($data[$angkatanItem][$id_kejuruan]['i']) ? $data[$angkatanItem][$id_kejuruan]['i'] : 0;echo "</td>";
-							echo "<td>";echo isset($data[$angkatanItem][$id_kejuruan]['w']) ? $data[$angkatanItem][$id_kejuruan]['w'] : 0;echo "</td>";
 							
 							$total[$angkatanItem]['l'] +=  isset($data[$angkatanItem][$id_kejuruan]['l']) ? $data[$angkatanItem][$id_kejuruan]['l'] : 0;
 							$total[$angkatanItem]['p'] +=  isset($data[$angkatanItem][$id_kejuruan]['p']) ? $data[$angkatanItem][$id_kejuruan]['p'] : 0;
 							$total[$angkatanItem]['j'] +=  isset($data[$angkatanItem][$id_kejuruan]['j']) ? $data[$angkatanItem][$id_kejuruan]['j'] : 0;
-							$total[$angkatanItem]['i'] +=  isset($data[$angkatanItem][$id_kejuruan]['i']) ? $data[$angkatanItem][$id_kejuruan]['i'] : 0;
-							$total[$angkatanItem]['w'] +=  isset($data[$angkatanItem][$id_kejuruan]['w']) ? $data[$angkatanItem][$id_kejuruan]['w'] : 0;
+
 						}
 						echo "</tr>";
 
@@ -253,8 +228,6 @@
 							echo "<td><b>".$total[$angkatanItem]['l']."</b></td>";
 							echo "<td><b>".$total[$angkatanItem]['p']."</b></td>";
 							echo "<td><b>".$total[$angkatanItem]['j']."</b></td>";
-							echo "<td><b>".$total[$angkatanItem]['i']."</b></td>";
-							echo "<td><b>".$total[$angkatanItem]['w']."</b></td>";
 						}
 
 					?>
