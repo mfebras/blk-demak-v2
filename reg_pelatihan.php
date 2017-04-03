@@ -40,7 +40,7 @@
 									session_unset($_SESSION['success-register']);
 								}
 							?>
-							<form action="<?php echo ROOT; ?>proses/peserta/reg_pelatihan.php" method="POST">
+							<form action="<?php echo ROOT; ?>proses/reg_pelatihan.php" method="POST">
 								<table class="table">
 									<tbody>
 										<tr>

@@ -179,14 +179,17 @@ ALTER TABLE `peserta` ADD `status_hapus` INT NOT NULL DEFAULT '0' COMMENT '0 = b
 ALTER TABLE `jadwal` ADD `status_hapus` INT NOT NULL DEFAULT '0' COMMENT '0 = belum dihapus, 1 = sudah dihapus' AFTER `pelatihan_akhir`;
 
 
-================================ 30 MARET 2017 ===================================
+================================ 3 APRIL 2017 ===================================
 M. FEBRA S
 
 ******* HAPUS KOLOM DI TABEL PESERTA
-ALTER TABLE `peserta` DROP `email`, DROP `password`, DROP `status`, DROP `token`, DROP `flag`, DROP `tanggal_daftar`;
+ALTER TABLE `peserta` DROP `password`, DROP `status`, DROP `token`, DROP `flag`;
+
+******* EMAIL NULLABLE DI TABEL PESERTA
+ALTER TABLE `peserta` CHANGE `email` `email` VARCHAR(64) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
 
 ******* TAMBAH KOLOM KECAMATAN DI TABEL PESERTA
 ALTER TABLE `peserta` ADD `kecamatan` VARCHAR(12) NOT NULL AFTER `alamat`; 
 
-******* HAPUS KOLOM DI TABEL REGISTRASI PELATIHAN
-ALTER TABLE `registrasi_pelatihan` DROP `status`;
+
+******* HAPUS TABEL daftar_kerja, jadwal_assign, kejuruan_assign SECARA MANUAL *******
