@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 03, 2017 at 10:55 
+-- Generation Time: Apr 04, 2017 at 06:26 
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -162,7 +162,6 @@ CREATE TABLE `peserta` (
   `alamat` varchar(256) DEFAULT NULL,
   `kecamatan` varchar(12) NOT NULL,
   `telepon` varchar(14) NOT NULL,
-  `email` varchar(64) DEFAULT NULL,
   `pendidikan_terakhir` varchar(16) NOT NULL,
   `sumber_info` varchar(16) DEFAULT NULL,
   `tanggal_daftar` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'tanggal created at',
@@ -173,8 +172,8 @@ CREATE TABLE `peserta` (
 -- Dumping data for table `peserta`
 --
 
-INSERT INTO `peserta` (`id`, `no_ktp`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `agama`, `alamat`, `kecamatan`, `telepon`, `email`, `pendidikan_terakhir`, `sumber_info`, `tanggal_daftar`, `status_hapus`) VALUES
-(5, '222', 'Ahmad', 'Laki-laki', 'Demak', '1990-04-03', 'Islam', 'Jl. ABC', 'Demak', '0857', NULL, 'SD Sederajat', 'Media Sosial', '2017-04-03 08:48:14', 0);
+INSERT INTO `peserta` (`id`, `no_ktp`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `agama`, `alamat`, `kecamatan`, `telepon`, `pendidikan_terakhir`, `sumber_info`, `tanggal_daftar`, `status_hapus`) VALUES
+(5, '222', 'Ahmad', 'Laki-laki', 'Demak', '1990-04-03', 'Islam', 'Jl. ABC', 'Demak', '0857', 'SD Sederajat', 'Media Sosial', '2017-04-03 08:48:14', 0);
 
 -- --------------------------------------------------------
 
@@ -238,8 +237,7 @@ ALTER TABLE `pesan`
 --
 ALTER TABLE `peserta`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `no_ktp` (`no_ktp`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `no_ktp` (`no_ktp`);
 
 --
 -- Indexes for table `registrasi_pelatihan`
