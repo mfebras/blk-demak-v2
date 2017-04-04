@@ -56,7 +56,7 @@
 	$pdf->Cell(280,7,'Tanggal '.$tgl_pelaksanaan.'',0, 0, 'C');
 	$pdf->ln();
 
-	$pdf->setXY(130, 47);
+	$pdf->setXY(100, 47);
 	$pdf->SetFont('Arial','',10);
 	$pdf->Cell(280,7,'Kapasitas = '.$kapasitas.' orang ',0, 0, 'C');
 
@@ -68,7 +68,6 @@
 
 	$pdf->Cell(50,7,'Nama Lengkap',1, 0, 'C');
 	$pdf->Cell(30,7,'No HP',1, 0, 'C');
-	$pdf->Cell(30,7,'Email',1, 0, 'C');
 	$pdf->Cell(70,7,'Alamat',1, 0, 'C');
 	$pdf->Cell(50,7,'Tempat, Tanggal Lahir',1, 0, 'C');
 	$pdf->Cell(20,7,'Pendidikan',1, 0, 'C');
@@ -83,7 +82,7 @@
 		die("QUERY SELCT DATA CETAK FAILED : ". mysqli_error($connect));	
 	}
 
-	$pdf->SetWidths(array(50,30,30,70, 50, 20, 30));
+	$pdf->SetWidths(array(50,30,70, 50, 20, 30));
 
 	while ($row=mysqli_fetch_object($query)) {
 		
@@ -92,7 +91,7 @@
 
 		$ttl = $row->tempat_lahir." ".$tgl_lahir;
 
-		$pdf->Row(array($row->nama, $row->telepon, $row->email, $row->alamat, $ttl, $row->pendidikan_terakhir, ''));
+		$pdf->Row(array($row->nama, $row->telepon, $row->alamat, $ttl, $row->pendidikan_terakhir, ''));
 		/*$pdf->Cell(50,7,$row->nama,1);
 		$pdf->Cell(30,7,$row->telepon,1);
 		$pdf->MultiCell(30,7,$row->email,1);

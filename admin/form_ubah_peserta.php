@@ -30,8 +30,6 @@
         $tempat_lahir = $data->tempat_lahir;
         $sumber_info = $data->sumber_info;
 
-        $status = $data->status;
-
         if(is_null($data->tanggal_lahir)){
           $tgl_lahir = '';
         }else{
@@ -51,15 +49,6 @@
               <div class="showback">
                 <h4><i class="fa fa-angle-right"></i> Ubah Peserta</h4>
                 <hr>
-
-                <?php
-
-                  if ($status!='Sudah konfirmasi'){
-                    echo "<div class=\"alert alert-danger\"><span>Tidak dapat mengubah data peserta. Peserta belum melakukan konfirmasi email! </span></div>";
-                  }else{
-
-
-                ?>
 
                 <?php
 
@@ -193,10 +182,6 @@
                   </div>
 
                 </form>
-
-                <?php
-                  } //END IF STATUS == AKTIF
-                ?>
 
               </div>
             </div>

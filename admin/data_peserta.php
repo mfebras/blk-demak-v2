@@ -62,11 +62,9 @@
                   <thead>
                     <tr>
                       <th>Nama Peserta</th>
-                      <th>Nomor KTP</th>
-                      <th>Email</th>
+                      <th>Nomor KTP</th>                      
                       <th>Nomor HP</th>
-                      <th>Pendidikan Terakhir</th>
-                      <th>Status</th>
+                      <th>Pendidikan Terakhir</th>                      
                       <th>Tanggal Daftar</th>                      
                       <th>Aksi</th>
                     </tr>
@@ -97,11 +95,9 @@
                           
                           echo "<tr>";
                           echo "<td>".$row->nama."</td>";
-                          echo "<td>".$row->no_ktp."</td>";
-                          echo "<td>".$row->email."</td>";
+                          echo "<td>".$row->no_ktp."</td>";                          
                           echo "<td>".$row->telepon."</td>";
-                          echo "<td>".$row->pendidikan_terakhir."</td>";
-                          echo "<td>".$row->status."</td>";
+                          echo "<td>".$row->pendidikan_terakhir."</td>";                          
                           echo "<td>".convertDate($row->tanggal_daftar, 'd M Y')."</td>";                         
                           echo "<td>";
                           echo "<a href=\"detail_peserta.php?id_peserta=".$row->id."\" class=\"btn btn-primary btn-xs\" data-tooltip=\"true\" title=\"Lihat Detail Peserta\" ><i class=\"fa fa-eye\"></i></a> ";

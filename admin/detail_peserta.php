@@ -22,14 +22,12 @@
         $nama = $data->nama;
         $no_ktp = $data->no_ktp;
         $agama = $data->agama;
-        $email = $data->email;
         $telepon = $data->telepon;
         $alamat = $data->alamat;
         $jenis_kelamin = $data->jenis_kelamin;
         $pendidikan_terakhir = $data->pendidikan_terakhir;
       
         $sumber_info = $data->sumber_info;
-        $status = $data->status;
 
         $tanggal_daftar = convertDate($data->tanggal_daftar, 'd M Y');
         $ttl = $data->tempat_lahir.", ".convertDate($data->tanggal_lahir, 'd M Y');
@@ -92,12 +90,6 @@
                   </tr>
 
                   <tr>
-                    <td>Email</td>
-                    <td> : </td>
-                    <td><?php echo $email?></td>
-                  </tr>
-
-                  <tr>
                     <td>Pendidikan Terakhir</td>
                     <td> : </td>
                     <td><?php echo $pendidikan_terakhir?></td>
@@ -113,46 +105,6 @@
                     <td>Sumber Info</td>
                     <td> : </td>
                     <td><?php echo $sumber_info?></td>
-                  </tr>
-
-                  <tr>
-                    <td>Status</td>
-                    <td> : </td>
-                    <td><?php echo $status?></td>
-                  </tr>
-
-                  <tr>
-                    <td>History Peserta</td>
-                    <td> : </td>
-                    <td>
-                      <?php 
-                        $query = mysqli_query($connect, "SELECT re.status, ke.nama_kejuruan, re.tanggal_registrasi FROM registrasi_pelatihan re, kejuruan ke WHERE re.id_kejuruan=ke.id_kejuruan AND re.id_kejuruan=$id_peserta ORDER BY re.tanggal_registrasi DESC ");
-                      
-                        if(!$query){
-
-                          die("QUERY GAGAL : ".mysqli_error($connect));
-
-                        }
-
-                        $num = mysqli_num_rows($query);
-
-                        if($num <= 0){
-                          echo " - ";
-                        }else{
-
-                          echo "<table>";
-
-                          while ($row = mysqli_fetch_object($query)) {
-                            echo "<tr>";
-                            echo "<td><span>".$row->nama_kejuruan."</span></td>";
-                            echo "<td><span style=\"margin-left:20px\">".convertStatusRegistrasi($row->status)."</span></td>";
-                            echo "</tr>";
-                          }
-                          
-                          echo "</table>";
-                        }
-                      ?>
-                    </td>                      
                   </tr>
 
                 </table>
