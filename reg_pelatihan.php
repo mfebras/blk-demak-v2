@@ -35,10 +35,6 @@
 									echo '<div class="alert alert-danger">'. $_SESSION['error-register'] .'</div>';
 									session_unset($_SESSION['error-register']);
 								}
-								if (isset($_SESSION['success-register'])) {
-									echo '<div class="alert alert-success">'. $_SESSION['success-register'] .'</div>';
-									session_unset($_SESSION['success-register']);
-								}
 							?>
 							<form action="<?php echo ROOT; ?>proses/reg_pelatihan.php" method="POST">
 								<table class="table">
@@ -46,12 +42,13 @@
 										<tr>
 											<th class="attribute">No KTP*</th>
 											<td class="colon">:</td>
-											<td><input class="form-control" type="text" name="no_ktp" required></td>
+											<td><input class="form-control" type="text" name="no_ktp" pattern= "[0-9]{16,16}" title="Masukkan 16 digit nomor KTP Anda" required
+												value="<?php echo (isset($_SESSION['no_ktp'])) ? $_SESSION['no_ktp'] : ''; ?>"></td>
 										</tr>
 										<tr>
 											<th class="attribute">Nama Lengkap*</th>
 											<td class="colon">:</td>
-											<td><input class="form-control" type="text" name="blk_nama" required></td>
+											<td><input class="form-control" type="text" name="blk_nama" required value="<?php echo (isset($_SESSION['nama'])) ? $_SESSION['nama'] : ''; ?>"></td>
 										</tr>
 										<tr>
 											<th class="attribute">Jenis Kelamin*</th>
@@ -121,18 +118,21 @@
 										<tr>
 											<th class="attribute">No Telepon/ HP*</th>
 											<td class="colon">:</td>
-											<td><input class="form-control" type="tel" name="telepon" required></td>
+											<td><input class="form-control" type="tel" name="telepon" pattern= "[^a-zA-Z]*" required></td>
 										</tr>
 										<tr>
 											<th class="attribute">Pendidikan Terakhir*</th>
 											<td class="colon">:</td>
 											<td>
 												<select name="pendidikan_terakhir" class="form-control" required>
-						                          <option value="">Pilih Pendidikan</option> 
-						                          <option value="Tidak Sekolah">Tidak Sekolah</option> 
-						                          <option value="SD Sederajat">SD Sederajat</option> 
-						                          <option value="SMP Sederajat">SMP Sederajat</option> 
-						                          <option value="SMA Sederajat">SMA Sederajat</option> 
+						                          <option value="">Pilih Pendidikan</option>
+						                          <option value="Tidak Sekolah">Tidak Sekolah</option>
+						                          <option value="SD Sederajat">SD Sederajat</option>
+						                          <option value="SMP Sederajat">SMP Sederajat</option>
+						                          <option value="SMA Sederajat">SMA Sederajat</option>
+						                          <option value="Diploma">Diploma</option>
+						                          <option value="Sarjana">Sarjana</option>
+						                        </select>
 											</td>
 										</tr>
 										<tr>
@@ -141,8 +141,10 @@
 											<td>
 						                        <select name="sumber_info" class="form-control" required>
 						                          <option value="">Pilih Sumber Info</option> 
+						                          <option value="Teman">Teman</option>
 						                          <option value="Brosur">Brosur</option>
 						                          <option value="Media Sosial">Media Sosial</option>
+						                          <option value="Lain-lain">Lain-lain</option>
 						                        </select>
 											</td>
 										</tr>
