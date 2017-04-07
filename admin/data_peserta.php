@@ -20,23 +20,10 @@
               <div class="showback">
                 <h4><i class="fa fa-angle-right"></i> Tabel Peserta</h4>
                 <hr>
+                <a style="margin-bottom:10px" href="../proses/admin/excel_peserta.php" target="_blank" class="btn btn-primary pull-right" >Ekspor Excel</a>
+                <br>
 
-                <!-- <div id="filter" class="col-lg-12" style="padding-bottom:15px">
-                  <div class="col-sm-3">
-                    <select name="kejuruan" id="kejuruan" class="form-control">
-                      <option value="">Pilih Kejuruan</option> 
-                      <option value="Menjahit">Menjahit</option> 
-                      <option value="Elektro">Elektro</option> 
-                      <option value="Memasak">Memasak</option> 
-                    </select>
-                  </div>
-
-                  <div class="col-sm-3">
-                    <input type="text" name="tanggal_daftar" id="tanggal_daftar" placeholder="Tanggal Daftar" class="form-control">
-                      
-                  </div>
-                </div> -->
-
+               
                 <?php
 
                   if(isset($_SESSION['error'])){
@@ -64,7 +51,8 @@
                       <th>Nama Peserta</th>
                       <th>Nomor KTP</th>                      
                       <th>Nomor HP</th>
-                      <th>Pendidikan Terakhir</th>                      
+                      <th>Pendidikan Terakhir</th>     
+                      <th>Kecamatan</th>                      
                       <th>Tanggal Daftar</th>                      
                       <th>Aksi</th>
                     </tr>
@@ -97,7 +85,8 @@
                           echo "<td>".$row->nama."</td>";
                           echo "<td>".$row->no_ktp."</td>";                          
                           echo "<td>".$row->telepon."</td>";
-                          echo "<td>".$row->pendidikan_terakhir."</td>";                          
+                          echo "<td>".$row->pendidikan_terakhir."</td>";
+                          echo "<td>".$row->kecamatan."</td>";                          
                           echo "<td>".convertDate($row->tanggal_daftar, 'd M Y')."</td>";                         
                           echo "<td>";
                           echo "<a href=\"detail_peserta.php?id_peserta=".$row->id."\" class=\"btn btn-primary btn-xs\" data-tooltip=\"true\" title=\"Lihat Detail Peserta\" ><i class=\"fa fa-eye\"></i></a> ";
