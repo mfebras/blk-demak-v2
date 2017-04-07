@@ -64,6 +64,7 @@
               <li><a href="<?php echo ROOT; ?>index.php">Beranda</a></li>
               <li><a href="<?php echo ROOT; ?>jadwal.php">Lihat Jadwal dan Jenis Pelatihan</a></li>
               <li><a href="<?php echo ROOT; ?>reg_pelatihan.php">Daftar Pelatihan</a></li>
+              <li><a href="<?php echo ROOT; ?>daftar_peserta.php">Daftar Peserta</a></li>
               <li><a href="<?php echo ROOT; ?>tentang.php">Tentang</a></li>
               <li><a href="<?php echo ROOT; ?>kontak.php">Kontak</a></li>
             </ul>

@@ -7,7 +7,7 @@
 
     // data diri
 	$no_ktp = $_POST['no_ktp'];
-	$nama = $_POST['blk_nama'];
+	$nama = strtoupper($_POST['blk_nama']);
 	$jenis_kelamin = $_POST['jenis_kelamin'];
 	$tempat_lahir = $_POST['tempat_lahir'];
 
@@ -27,12 +27,24 @@
 	$kode_kejuruan = $_POST['kode_kejuruan'];
 	$status = 1;
 
+
+	// cek panjang KTP
+	if (strlen($no_ktp) != 16) {
+		$_SESSION['error'] = "Pendaftaran gagal.";
+		$_SESSION['error-register'] = "No KTP Anda harus berjumlah 16 digit.";
+
+		header("Location: ". ROOT . "reg_pelatihan.php");
+		die();
+	}
+
 	// cek field kosong
 	if (empty($nama) || empty($no_ktp) || empty($telepon) || empty($alamat) || empty($kecamatan) ||
 		empty($jenis_kelamin) || empty($tempat_lahir) || empty($tanggal_lahir) || empty($agama) ||
 		empty($pendidikan_terakhir) || empty($sumber_info) || empty($id_kejuruan) || empty($kode_kejuruan)) {
+		$_SESSION['error'] = "Pendaftaran gagal.";
 		$_SESSION['error-register'] = "Formulir tidak lengkap.<br>
 								Anda harus mengisi semua bagian yang kosong.";
+
 		header("Location: ". ROOT . "reg_pelatihan.php");
 		die();
 	}
@@ -78,9 +90,13 @@
 		register($connect, $no_registrasi, $id_peserta, $id_kejuruan, $status);
 	}
 
+
+	$_SESSION['id_peserta'] = $id_peserta;
+
 	mysqli_close($connect);
+
 	// redirect ke halaman sebelumnya
-	header("Location: ". ROOT . "reg_pelatihan.php");
+	header("Location: ". ROOT . "info_peserta.php");
 	die();
 
 
