@@ -14,7 +14,7 @@
               WHERE peserta.id=$id_peserta";
         
   $result = mysqli_query($connect, $get_sql);
-  $row = mysqli_fetch_array($result);
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
   $_SESSION['page'] = "info_peserta";
 

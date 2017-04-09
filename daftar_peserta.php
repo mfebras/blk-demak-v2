@@ -57,7 +57,7 @@
             }
             else {
             $no = 1;
-              while ($row=mysqli_fetch_array($result)) {
+              while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 echo '<tr>';
                 echo '<td>'. $no .'</td>';
                 echo '<td>'. $row['no_registrasi'] .'</td>';
